@@ -5,7 +5,7 @@ import { Toaster } from 'sonner'
 import { SITE_NAME } from '@/constants/seo.constants'
 
 import './globals.scss'
-import { Providers } from '@/app/providers'
+import { Providers } from './providers'
 
 const zen = Noto_Sans({
 	subsets: ['cyrillic', 'latin'],
@@ -19,8 +19,7 @@ export const metadata: Metadata = {
 	title: {
 		default: SITE_NAME,
 		template: `%s | ${SITE_NAME}`
-	},
-	description: 'MindHub'
+	}
 }
 
 export default function RootLayout({
@@ -33,9 +32,10 @@ export default function RootLayout({
 			<body className={zen.className}>
 				<Providers>
 					{children}
+
 					<Toaster
-						theme={'dark'}
-						position={'top-right'}
+						theme='dark'
+						position='bottom-right'
 						duration={1500}
 					/>
 				</Providers>
