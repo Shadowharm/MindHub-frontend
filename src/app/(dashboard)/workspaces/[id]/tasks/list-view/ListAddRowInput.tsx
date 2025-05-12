@@ -1,12 +1,12 @@
 import { type Dispatch, type SetStateAction } from 'react'
 
-import { ITaskResponse } from '@/types/task.types'
+import { ITask } from '@/types/task.types'
 
 import styles from './ListView.module.scss'
 
 interface IListAddRowInput {
 	filterDate?: string
-	setItems: Dispatch<SetStateAction<ITaskResponse[] | undefined>>
+	setItems: Dispatch<SetStateAction<ITask[] | undefined>>
 }
 
 export function ListAddRowInput({ setItems, filterDate }: IListAddRowInput) {
@@ -17,10 +17,12 @@ export function ListAddRowInput({ setItems, filterDate }: IListAddRowInput) {
 			return [
 				...prev,
 				{
-					id: '',
+					id: ``,
+					dndId: `${Date.now()}`,
 					name: '',
 					isCompleted: false,
-					createdAt: filterDate
+					createdAt: filterDate,
+					workspaceId: ''
 				}
 			]
 		})

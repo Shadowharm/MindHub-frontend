@@ -2,27 +2,27 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { Button } from '@/components/ui/buttons/Button'
 import { Field } from '@/components/ui/fields/Field'
 
-import { TypeUserForm } from '@/types/auth.types'
+import { IUserForm } from '@/types/auth.types'
 
 import { useInitialData } from './useInitialData'
 import { useUpdateSettings } from './useUpdateSettings'
+import {Button} from "@chakra-ui/react";
 
 export function Settings() {
-	const { register, handleSubmit, reset } = useForm<TypeUserForm>({
+	const { register, handleSubmit, reset } = useForm<IUserForm>({
 		mode: 'onChange'
 	})
 
 	useInitialData(reset)
 
-	const { isPending, mutate } = useUpdateSettings()
+	const { isPending, mutateAsync } = useUpdateSettings()
 
-	const onSubmit: SubmitHandler<TypeUserForm> = data => {
+	const onSubmit: SubmitHandler<IUserForm> = async data => {
 		const { password, ...rest } = data
 
-		mutate({
+		await mutateAsync({
 			...rest,
 			password: password || undefined
 		})
@@ -51,7 +51,9 @@ export function Settings() {
 							id='name'
 							label='Name: '
 							placeholder='Enter name: '
-							{...register('name')}
+							{...register('name', {
+								required: 'Name is required!'
+							})}
 							extra='mb-4'
 						/>
 

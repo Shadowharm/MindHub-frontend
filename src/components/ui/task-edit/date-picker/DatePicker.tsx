@@ -47,14 +47,14 @@ export function DatePicker({
 			<button onClick={() => setIsShow(!isShow)}>
 				{value ? dayjs(value).format('LL') : 'Click for select'}
 			</button>
-			{value && (
-				<button
-					className='absolute -top-2 -right-4 opacity-30 hover:opacity-100 transition-opacity'
-					onClick={() => onChange('')}
-				>
-					<X size={14} />
-				</button>
-			)}
+			{/*{value && (*/}
+			{/*	<button*/}
+			{/*		className='absolute -top-2 -right-4 opacity-30 hover:opacity-100 transition-opacity'*/}
+			{/*		onClick={() => onChange('')}*/}
+			{/*	>*/}
+			{/*		<X size={14} />*/}
+			{/*	</button>*/}
+			{/*)}*/}
 			{isShow && (
 				<div
 					className={cn(

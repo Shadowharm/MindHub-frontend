@@ -4,7 +4,7 @@ export interface IAuthForm {
 }
 
 export interface IUser {
-	id: number
+	id: string
 	name?: string
 	email: string
 

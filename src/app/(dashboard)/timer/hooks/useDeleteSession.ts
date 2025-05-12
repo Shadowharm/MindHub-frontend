@@ -9,6 +9,7 @@ export function useDeleteSession(onDeleteSuccess: () => void) {
 		mutationKey: ['delete session'],
 		mutationFn: (id: string) => pomodoroService.deleteSession(id),
 		onSuccess() {
+			console.log(1)
 			queryClient.invalidateQueries({
 				queryKey: ['get today session']
 			})

@@ -8,9 +8,11 @@ import { useTasks } from '../hooks/useTasks'
 
 import { KanbanColumn } from './KanbanColumn'
 import styles from './KanbanView.module.scss'
+import {useParams} from "next/navigation";
 
 export function KanbanView() {
-	const { items, setItems } = useTasks()
+	const params = useParams<{id: string}>()
+	const { items, setItems } = useTasks(params.id)
 	const { onDragEnd } = useTaskDnd()
 
 	return (

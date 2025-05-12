@@ -1,6 +1,5 @@
 import { Controller, SubmitHandler, useFormContext } from 'react-hook-form'
 
-import { Button } from '@/components/ui/buttons/Button'
 import { Field } from '@/components/ui/fields/Field'
 import { SingleSelect } from '@/components/ui/task-edit/SingleSelect'
 
@@ -9,9 +8,10 @@ import type { TypeTimeBlockFormState } from '@/types/time-block.types'
 import { COLORS } from './colors.data'
 import { useCreateTimeBlock } from './useCreateTimeBlock'
 import { useUpdateTimeBlock } from './useUpdateTimBlock'
+import {Button} from "@chakra-ui/react";
 
 export function TimeBlockingForm() {
-	const { register, control, watch, reset, handleSubmit, getValues } =
+	const { register, control, watch, reset, handleSubmit } =
 		useFormContext<TypeTimeBlockFormState>()
 
 	const existsId = watch('id')

@@ -1,7 +1,5 @@
 import {
-	IPomodoroSessionResponse,
-	TypePomodoroRoundFormState,
-	TypePomodoroSessionFormState
+	IPomodoroSessionResponse
 } from '@/types/pomodoro.types'
 
 import { axiosWithAuth } from '@/api/interceptors'
@@ -23,7 +21,7 @@ class PomodoroService {
 		return response
 	}
 
-	async updateSession(id: string, data: TypePomodoroSessionFormState) {
+	async updateSession(id: string, data: any) {
 		const response = await axiosWithAuth.put(`${this.BASE_URL}/${id}`, data)
 		return response
 	}
@@ -33,7 +31,7 @@ class PomodoroService {
 		return response
 	}
 
-	async updateRound(id: string, data: TypePomodoroRoundFormState) {
+	async updateRound(id: string, data: any) {
 		const response = await axiosWithAuth.put(
 			`${this.BASE_URL}/round/${id}`,
 			data

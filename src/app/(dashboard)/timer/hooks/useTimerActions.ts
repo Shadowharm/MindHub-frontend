@@ -27,7 +27,7 @@ export function useTimerActions({
 			id: activeRound?.id,
 			data: {
 				totalSeconds: secondsLeft,
-				isCompleted: Math.floor(secondsLeft / 60) >= workInterval
+				isCompleted: Math.floor(secondsLeft / 60) >= (workInterval as number)
 			}
 		})
 	}
@@ -43,13 +43,12 @@ export function useTimerActions({
 			id: activeRound?.id,
 			data: {
 				isCompleted: true,
-				totalSeconds: workInterval * 60
+				totalSeconds: (workInterval as number) * 60
 			}
 		})
 	}
 
 	const prevRoundHandler = () => {
-		// ES2023
 		const lastCompletedRound = rounds?.findLast(round => round.isCompleted)
 		if (!lastCompletedRound?.id) return
 

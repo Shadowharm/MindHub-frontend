@@ -1,13 +1,15 @@
-import { IUser, TypeUserForm } from '@/types/auth.types'
+import { IUser, IUserForm } from '@/types/auth.types'
 
 import { axiosWithAuth } from '@/api/interceptors'
 
 export interface IProfileResponse {
 	user: IUser
 	statistics: {
-		label: string
-		value: string
-	}[]
+		completedTasks: number
+		totalTasks: number
+		todayTasks: number
+		weekTasks: number
+	}
 }
 
 class UserService {
@@ -18,7 +20,7 @@ class UserService {
 		return response.data
 	}
 
-	async update(data: TypeUserForm) {
+	async update(data: IUserForm) {
 		const response = await axiosWithAuth.put(this.BASE_URL, data)
 		return response.data
 	}

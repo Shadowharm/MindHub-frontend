@@ -8,25 +8,28 @@ import { TransparentField } from '@/components/ui/fields/TransparentField'
 import { SingleSelect } from '@/components/ui/task-edit/SingleSelect'
 import { DatePicker } from '@/components/ui/task-edit/date-picker/DatePicker'
 
-import type { ITaskResponse, TypeTaskFormState } from '@/types/task.types'
+import type { ITask, CreateTask } from '@/types/task.types'
 
 import { useDeleteTask } from '../hooks/useDeleteTask'
 import { useTaskDebounce } from '../hooks/useTaskDebounce'
 
-import styles from './KanbanView.module.scss'
+import styles from './ListView.module.scss'
+import {useParams} from "next/navigation";
 
-interface IKanbanCard {
-	item: ITaskResponse
-	setItems: Dispatch<SetStateAction<ITaskResponse[] | undefined>>
+interface IListRow {
+	item: ITask
+	setItems: Dispatch<SetStateAction<ITask[] | undefined>>
 }
 
-export function KanbanCard({ item, setItems }: IKanbanCard) {
-	const { register, control, watch } = useForm<TypeTaskFormState>({
+export function ListRow({ item, setItems }: IListRow) {
+	const params = useParams<{id: string}>()
+	const { register, control, watch } = useForm<CreateTask>({
 		defaultValues: {
 			name: item.name,
 			isCompleted: item.isCompleted,
 			createdAt: item.createdAt,
-			priority: item.priority
+			priority: item.priority,
+			workspaceId: params.id
 		}
 	})
 
@@ -37,33 +40,32 @@ export function KanbanCard({ item, setItems }: IKanbanCard) {
 	return (
 		<div
 			className={cn(
-				styles.card,
-				{
-					[styles.completed]: watch('isCompleted')
-				},
+				styles.row,
+				watch('isCompleted') ? styles.completed : '',
 				'animation-opacity'
 			)}
 		>
-			<div className={styles.cardHeader}>
-				<button aria-describedby='todo-item'>
-					<GripVertical className={styles.grip} />
-				</button>
+			<div>
+				<span className='inline-flex items-center gap-2.5 w-full'>
+					<button aria-describedby='todo-item'>
+						<GripVertical className={styles.grip} />
+					</button>
 
-				<Controller
-					control={control}
-					name='isCompleted'
-					render={({ field: { value, onChange } }) => (
-						<Checkbox
-							onChange={onChange}
-							checked={value}
-						/>
-					)}
-				/>
+					<Controller
+						control={control}
+						name='isCompleted'
+						render={({ field: { value, onChange } }) => (
+							<Checkbox
+								checked={value}
+								onCheckedChange={({ checked }: {checked: boolean}) => onChange(checked)}
+							/>
+						)}
+					/>
 
-				<TransparentField {...register('name')} />
+					<TransparentField {...register('name')} />
+				</span>
 			</div>
-
-			<div className={styles.cardBody}>
+			<div>
 				<Controller
 					control={control}
 					name='createdAt'
@@ -71,11 +73,11 @@ export function KanbanCard({ item, setItems }: IKanbanCard) {
 						<DatePicker
 							onChange={onChange}
 							value={value || ''}
-							position='left'
 						/>
 					)}
 				/>
-
+			</div>
+			<div className='capitalize'>
 				<Controller
 					control={control}
 					name='priority'
@@ -91,8 +93,7 @@ export function KanbanCard({ item, setItems }: IKanbanCard) {
 					)}
 				/>
 			</div>
-
-			<div className={styles.cardActions}>
+			<div>
 				<button
 					onClick={() =>
 						item.id ? deleteTask(item.id) : setItems(prev => prev?.slice(0, -1))

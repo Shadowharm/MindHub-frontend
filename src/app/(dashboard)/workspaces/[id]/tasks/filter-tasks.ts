@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
-import type { ITaskResponse } from '@/types/task.types'
+import type { ITask } from '@/types/task.types'
 
 import { FILTERS } from './columns.data'
 
@@ -10,7 +10,7 @@ dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 
 export const filterTasks = (
-	tasks: ITaskResponse[] | undefined,
+	tasks: ITask[] | undefined,
 	value: string
 ) => {
 	switch (value) {

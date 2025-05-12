@@ -8,25 +8,28 @@ import { TransparentField } from '@/components/ui/fields/TransparentField'
 import { SingleSelect } from '@/components/ui/task-edit/SingleSelect'
 import { DatePicker } from '@/components/ui/task-edit/date-picker/DatePicker'
 
-import type { ITaskResponse, TypeTaskFormState } from '@/types/task.types'
+import type { ITask, CreateTask } from '@/types/task.types'
 
 import { useDeleteTask } from '../hooks/useDeleteTask'
 import { useTaskDebounce } from '../hooks/useTaskDebounce'
 
-import styles from './ListView.module.scss'
+import styles from './KanbanView.module.scss'
+import {useParams} from "next/navigation";
 
-interface IListRow {
-	item: ITaskResponse
-	setItems: Dispatch<SetStateAction<ITaskResponse[] | undefined>>
+interface IKanbanCard {
+	item: ITask
+	setItems: Dispatch<SetStateAction<ITask[] | undefined>>
 }
 
-export function ListRow({ item, setItems }: IListRow) {
-	const { register, control, watch } = useForm<TypeTaskFormState>({
+export function KanbanCard({ item, setItems }: IKanbanCard) {
+	const params = useParams<{id: string}>()
+	const { register, control, watch } = useForm<CreateTask>({
 		defaultValues: {
 			name: item.name,
 			isCompleted: item.isCompleted,
 			createdAt: item.createdAt,
-			priority: item.priority
+			priority: item.priority,
+			workspaceId: params.id
 		}
 	})
 
@@ -37,32 +40,33 @@ export function ListRow({ item, setItems }: IListRow) {
 	return (
 		<div
 			className={cn(
-				styles.row,
-				watch('isCompleted') ? styles.completed : '',
+				styles.card,
+				{
+					[styles.completed]: watch('isCompleted')
+				},
 				'animation-opacity'
 			)}
 		>
-			<div>
-				<span className='inline-flex items-center gap-2.5 w-full'>
-					<button aria-describedby='todo-item'>
-						<GripVertical className={styles.grip} />
-					</button>
+			<div className={styles.cardHeader}>
+				<button aria-describedby='todo-item'>
+					<GripVertical className={styles.grip} />
+				</button>
 
-					<Controller
-						control={control}
-						name='isCompleted'
-						render={({ field: { value, onChange } }) => (
-							<Checkbox
-								onChange={onChange}
-								checked={value}
-							/>
-						)}
-					/>
+				<Controller
+					control={control}
+					name='isCompleted'
+					render={({ field: { value, onChange } }) => (
+						<Checkbox
+							onCheckedChange={({ checked }: {checked: boolean}) => onChange(checked)}
+							checked={value}
+						/>
+					)}
+				/>
 
-					<TransparentField {...register('name')} />
-				</span>
+				<TransparentField {...register('name')} />
 			</div>
-			<div>
+
+			<div className={styles.cardBody}>
 				<Controller
 					control={control}
 					name='createdAt'
@@ -70,11 +74,11 @@ export function ListRow({ item, setItems }: IListRow) {
 						<DatePicker
 							onChange={onChange}
 							value={value || ''}
+							position='left'
 						/>
 					)}
 				/>
-			</div>
-			<div className='capitalize'>
+
 				<Controller
 					control={control}
 					name='priority'
@@ -90,7 +94,8 @@ export function ListRow({ item, setItems }: IListRow) {
 					)}
 				/>
 			</div>
-			<div>
+
+			<div className={styles.cardActions}>
 				<button
 					onClick={() =>
 						item.id ? deleteTask(item.id) : setItems(prev => prev?.slice(0, -1))

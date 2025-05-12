@@ -12,13 +12,19 @@ export function useTimer(): ITimerState {
 	const [isRunning, setIsRunning] = useState(false)
 	const [isBreakTime, setIsBreakTime] = useState(false)
 
-	const [secondsLeft, setSecondsLeft] = useState(workInterval * 60)
+	const [secondsLeft, setSecondsLeft] = useState(1)
 	const [activeRound, setActiveRound] = useState<IPomodoroRoundResponse>()
+
+	useEffect(() => {
+		if (workInterval&& breakInterval) {
+			setSecondsLeft(workInterval * 60);
+		}
+	}, [workInterval, breakInterval]);
 
 	useEffect(() => {
 		let interval: NodeJS.Timeout | null = null
 
-		if (isRunning) {
+		if (isRunning && workInterval) {
 			interval = setInterval(() => {
 				setSecondsLeft(secondsLeft => secondsLeft - 1)
 			}, 1000)
@@ -31,16 +37,12 @@ export function useTimer(): ITimerState {
 		}
 	}, [isRunning, secondsLeft, workInterval, activeRound])
 
-	useEffect(() => {
-		// Ранний выход, если время не истекло
-		if (secondsLeft > 0) return
-
-		// Переключение режима и установка нового времени одной операцией
-		setIsBreakTime(!isBreakTime)
-		setSecondsLeft((isBreakTime ? workInterval : breakInterval) * 60)
-	}, [secondsLeft, isBreakTime, workInterval, breakInterval])
 
 	return {
+		setIsBreakTime,
+		isBreakTime,
+		breakInterval,
+		workInterval,
 		activeRound,
 		secondsLeft,
 		setActiveRound,

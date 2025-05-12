@@ -18,8 +18,8 @@ export const MENU: IMenuItem[] = [
 	},
 	{
 		icon: KanbanSquare,
-		link: DASHBOARD_PAGES.TASKS,
-		name: 'Tasks'
+		link: DASHBOARD_PAGES.WORKSPACES,
+		name: 'Workspaces'
 	},
 	{
 		icon: Timer,

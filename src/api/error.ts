@@ -1,5 +1,3 @@
-import axios, { CreateAxiosDefaults } from 'axios'
-
 export const errorCatch = (error: any): string => {
 	const message = error?.response?.data?.message
 

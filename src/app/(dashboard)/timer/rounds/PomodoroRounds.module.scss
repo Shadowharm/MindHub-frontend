@@ -25,7 +25,8 @@
 
 	&.active::before {
 		@apply duration-1000;
-		width: 40%;
+		width: var(--progress-width, 0%);
+		background-color: var(--active-color, #ff6347);
 	}
 
 	&.completed::before {

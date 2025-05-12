@@ -8,9 +8,11 @@ import { useTasks } from '../hooks/useTasks'
 
 import { ListRowParent } from './ListRowParent'
 import styles from './ListView.module.scss'
+import {useParams} from "next/navigation";
 
 export function ListView() {
-	const { items, setItems } = useTasks()
+	const params = useParams<{id: string}>()
+	const { items, setItems } = useTasks(params.id)
 	const { onDragEnd } = useTaskDnd()
 
 	return (

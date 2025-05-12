@@ -1,12 +1,10 @@
 class DASHBOARD {
-	private root = ''
 
-	HOME = this.root
-	TASKS = `${this.root}/tasks`
-	HABITS = `${this.root}/habits`
-	TIMER = `${this.root}/timer`
-	TIME_BLOCKING = `${this.root}/time-blocking`
-	SETTINGS = `${this.root}/settings`
+	HOME = '/'
+	WORKSPACES = `/workspaces`
+	TIMER = `/timer`
+	TIME_BLOCKING = `/time-blocking`
+	SETTINGS = `/settings`
 }
 
 export const DASHBOARD_PAGES = new DASHBOARD()

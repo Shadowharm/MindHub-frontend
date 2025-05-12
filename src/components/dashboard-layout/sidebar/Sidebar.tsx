@@ -23,9 +23,6 @@ export function Sidebar() {
 					/>
 					<span className='text-2xl font-bold relative'>
 						MindHub
-						<span className='absolute -top-1 -right-6 text-xs opacity-40 rotate-[18deg] font-normal'>
-							beta
-						</span>
 					</span>
 				</Link>
 				<div className='p-3 relative'>
@@ -38,18 +35,6 @@ export function Sidebar() {
 					))}
 				</div>
 			</div>
-			<footer className='text-xs opacity-40 font-normal text-center p-layout'>
-				2024 &copy; With love from{' '}
-				<a
-					href='https://www.youtube.com/c/redgroup/?sub_confirmation=1'
-					target='_blank'
-					rel='noreferrer'
-					className='hover:text-primary text-brand-300 transition-colors'
-				>
-					Shadowh4rm
-				</a>
-				. <br /> All rights reserved.
-			</footer>
 		</aside>
 	)
 }

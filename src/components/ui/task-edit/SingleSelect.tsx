@@ -15,13 +15,15 @@ interface ISingleSelect {
 	onChange: (value: string) => void
 	value: string
 	isColorSelect?: boolean
+	clearable?: boolean
 }
 
 export function SingleSelect({
 	data,
 	onChange,
 	value,
-	isColorSelect
+	isColorSelect,
+	clearable = true
 }: ISingleSelect) {
 	const { isShow, setIsShow, ref } = useOutside(false)
 	const getValue = () => data.find(item => item.value === value)?.value
@@ -51,7 +53,7 @@ export function SingleSelect({
 					<Badge>Click for select</Badge>
 				)}
 			</button>
-			{value && (
+			{clearable && value && (
 				<button
 					className='absolute top-0 right-0 opacity-30 hover:opacity-100 transition-opacity'
 					onClick={e => {

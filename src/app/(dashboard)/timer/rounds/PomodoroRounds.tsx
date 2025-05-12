@@ -10,19 +10,28 @@ interface IPomodoroRounds {
 	nextRoundHandler: () => void
 	prevRoundHandler: () => void
 	activeRound: IPomodoroRoundResponse | undefined
+	workInterval: number
+	secondsLeft: number
+	isBreakTime: boolean
+	breakInterval: number
 }
 
 export function PomodoroRounds({
 	rounds,
 	nextRoundHandler,
 	prevRoundHandler,
-	activeRound
+	activeRound,
+	isBreakTime,
+	workInterval,
+	secondsLeft,
+	breakInterval
 }: IPomodoroRounds) {
 	const isCanPrevRound = rounds
 		? rounds.some(round => round.isCompleted)
 		: false
-	const isCanNextRound = rounds ? !rounds[rounds.length - 1].isCompleted : false
+	const isCanNextRound = rounds ? !rounds[rounds.length - 2]?.isCompleted : false
 
+	const progressPercentage = (((isBreakTime ? breakInterval : workInterval) * 60 - secondsLeft) / ((isBreakTime ? breakInterval : workInterval) * 60)) * 100
 	return (
 		<div className={styles.container}>
 			<button
@@ -42,6 +51,16 @@ export function PomodoroRounds({
 								[styles.active]:
 									round.id === activeRound?.id && !round.isCompleted
 							})}
+							style={
+								round.id === activeRound?.id
+									? {
+										// @ts-ignore
+										"--progress-width": `${progressPercentage}%`,
+										"--active-color": !isBreakTime ? '#7551FF' : '#F97912',
+									}
+									: undefined
+							}
+
 						/>
 					))}
 			</div>

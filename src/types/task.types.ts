@@ -6,10 +6,11 @@ export enum EnumTaskPriority {
 	high = 'high'
 }
 
-export interface ITaskResponse extends IBase {
+export interface ITask extends IBase {
 	name: string
 	priority?: EnumTaskPriority
 	isCompleted: boolean
+	workspaceId: string
 }
 
-export type TypeTaskFormState = Partial<Omit<ITaskResponse, 'id' | 'updatedAt'>>
+export type CreateTask = Partial<Omit<ITask, 'id' | 'updatedAt'>>
